@@ -1,13 +1,13 @@
 version: '3'
 services:
-  prometheus:
+  prometheus: # alo
     image: prom/prometheus:latest
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-    ports:
+    ports: 
       - 9090:9090
   node-exporter:
     image: prom/node-exporter
