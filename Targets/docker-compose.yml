@@ -1,0 +1,37 @@
+version: '3'
+services:
+
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - 9100:9100
+
+  cadvisor:
+    image: google/cadvisor:latest #budry/cadvisor-arm
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+  webserver:
+    image: nginx:latest
+    container_name: webserver
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./default.config:/etc/nginx/conf.d/default.conf   # config handle /metrics
+      
+  nginx_exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx_exporter
+    privileged: true
+    command:
+      - -nginx.scrape-uri=http://host.docker.internal/metrics   #command to parateter for <ip webserver>:<port>/metrics
+    ports:
+      - 9113:9113
+    depends_on:
+      - webserver

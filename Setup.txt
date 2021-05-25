@@ -1,0 +1,23 @@
+#command setup:
+    sudo apt-get update
+    sudo apt install docker.io docker-compose
+
+#step_by_step
+    1. install in Targets
+        Test: request to sites format: ['ip:8080/metrics'], ['ip:9100/metrics'], ['ip:9113/metrics']
+        Test all container Up
+
+    2. install in Server Monitor
+        edit prometheus.yml to collect metrics from Targets
+        run docker-compose
+        
+        Access Grafana Web in: <ip server>:3000
+        Add data source
+        Create Dashboard to view data
+
+        Add Alert Rule
+        Add Notification Channel
+
+
+#reference
+    Youtube channel - Thetips4you - https://github.com/shazforiot/prometheus_nodeexporter_grafana_CAdvisor

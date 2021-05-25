@@ -1,0 +1,26 @@
+version: '3'
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+
+  grafana:
+    image: grafana/grafana
+    user: "1000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=password   # admin - password
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST=smtp.gmail.com:465 #(ex. smtp.gmail.com:465)
+      - GF_SMTP_USER=danhgiahieunang.uit@gmail.com #(ex. you@email.com)
+      - GF_SMTP_PASSWORD=danhgiahieunang
+      - GF_SMTP_SKIP_VERIFY=1
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
